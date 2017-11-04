@@ -1,6 +1,7 @@
 package com.example.administrator.myapplication.service.presenter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -61,6 +62,7 @@ public class GImagePresenter implements Presenter {
     }
 
     public void getGImage(int count,int page){
+
         mCompositeSubscription.add(mDataManager.getGImage(count,page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

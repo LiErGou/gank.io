@@ -5,12 +5,13 @@
               android:layout_height="wrap_content"
               android:paddingLeft="1dp"
               android:paddingRight="1dp"
-              android:paddingTop="2dp">
+              android:paddingTop="3dp">
 
     <ImageView
         android:id="@+id/gimage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
+        android:scaleType="fitStart"
+        android:background="#ff0"
         />
 </LinearLayout>

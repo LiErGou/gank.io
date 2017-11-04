@@ -10,6 +10,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.ui.EndlessOnScrollListener;
@@ -71,8 +72,21 @@ public class ImageFragment extends Fragment {
         mRecyclerView.addOnScrollListener(new EndlessOnScrollListener(mStaggeredGridLayoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-
+//                gImagesAdapter.length+=1;
                 gImagesAdapter.notifyDataSetChanged();
+            }
+        });
+        gImagesAdapter.setOnItemClickLitener(new GImagesAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(), position + " click",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Toast.makeText(getContext(), position + "Long click",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

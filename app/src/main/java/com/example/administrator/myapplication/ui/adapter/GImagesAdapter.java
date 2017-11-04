@@ -1,6 +1,9 @@
 package com.example.administrator.myapplication.ui.adapter;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -8,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.service.presenter.GImagePresenter;
 
@@ -19,16 +23,20 @@ import java.util.List;
  */
 
 public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHolder> {
+    private OnItemClickLitener mOnItemClickLitener;
     private List<Integer> heights;
     private GImagePresenter mGImagePresenter;
     public int length=10;
+    public int picHeight;
     private int screenWidth;
+    private Context mContext;
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MyViewHolder myViewHolder=new MyViewHolder(LayoutInflater
                 .from(parent.getContext()).inflate(R.layout.recycleview_item,parent,false));
         mGImagePresenter=new GImagePresenter(parent.getContext());
+        mContext=parent.getContext();
         initSize(parent);
         return myViewHolder;
     }
@@ -45,17 +53,43 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
             heights.add((int)(400+Math.random()*400));
         }
     }
-    @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        ViewGroup.LayoutParams params =  holder.itemView.getLayoutParams();//得到item的LayoutParams布局参数
-        params.height = heights.get(position);//把随机的高度赋予item布局
-        params.width=screenWidth/2;
-        holder.itemView.setLayoutParams(params);//把params设置给item布局
+    @Override
+    public void onViewRecycled(MyViewHolder holder) {
+        super.onViewRecycled(holder);
+        Glide.clear(holder.mImageView);
+    }
+
+    @Override
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
+
 
         mGImagePresenter.attachMyView(holder.mImageView);
         mGImagePresenter.getGImage(1,position+1);
-//        holder.mImageView.setImageResource(R.drawable.test);
+        if (mOnItemClickLitener != null)
+        {
+            holder.itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    int pos = holder.getLayoutPosition();
+                    mOnItemClickLitener.onItemClick(holder.itemView, pos);
+                }
+            });
+
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener()
+            {
+                @Override
+                public boolean onLongClick(View v)
+                {
+                    int pos = holder.getLayoutPosition();
+                    mOnItemClickLitener.onItemLongClick(holder.itemView, pos);
+                    return false;
+                }
+            });
+        }
+
     }
 
 
@@ -64,11 +98,21 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
         return length;
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView mImageView;
         public MyViewHolder(View itemView) {
             super(itemView);
             mImageView=(ImageView)itemView.findViewById(R.id.gimage);
         }
+    }
+
+    public interface OnItemClickLitener
+    {
+        void onItemClick(View view, int position);
+        void onItemLongClick(View view , int position);
+    }
+    public void setOnItemClickLitener(OnItemClickLitener onItemClickLitener)
+    {
+        this.mOnItemClickLitener = onItemClickLitener;
     }
 }
