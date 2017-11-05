@@ -6,10 +6,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-
-import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.service.entity.GImageBean;
 import com.example.administrator.myapplication.ui.adapter.GImagesAdapter;
 
@@ -26,9 +22,10 @@ public class ImageUtils {
 
 
         Glide.with(context)
+                .asBitmap()
                 .load(gImageBean.getResults().get(0).getUrl())
 
-                .asBitmap()
+
                 .into(view);
 //                .into(new SimpleTarget<Bitmap>() {
 //                    @Override

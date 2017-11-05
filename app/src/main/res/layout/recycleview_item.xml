@@ -11,7 +11,7 @@
         android:id="@+id/gimage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitStart"
+        android:scaleType="fitCenter"
         android:background="#ff0"
         />
 </LinearLayout>

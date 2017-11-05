@@ -13,8 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.service.presenter.GImagePresenter;
 import com.example.administrator.myapplication.ui.EndlessOnScrollListener;
 import com.example.administrator.myapplication.ui.adapter.GImagesAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ImageFragment extends Fragment {
@@ -23,14 +27,19 @@ public class ImageFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private GImagesAdapter gImagesAdapter;
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
-
+    private List<String> urls;
     private OnFragmentInteractionListener mListener;
+    private GImagePresenter mGImagePresenter;
+    private int countOfRequestPic;
+    private int timesOfRequestPic;
 
     public ImageFragment() {
         // Required empty public constructor
     }
 
-
+    public void setUrls(List<String> urls) {
+        this.urls = urls;
+    }
     public static ImageFragment newInstance(String param1, String param2) {
         ImageFragment fragment = new ImageFragment();
         Bundle args = new Bundle();
@@ -48,15 +57,31 @@ public class ImageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_image, container, false);
+        mGImagePresenter=new GImagePresenter(getContext());
+        mGImagePresenter.setImageFragment(this);
+        countOfRequestPic=10;
+        timesOfRequestPic=1;
+        urls=new ArrayList<>();
+        mGImagePresenter.getGImageUrls(urls,countOfRequestPic,timesOfRequestPic);
         mRecyclerView=(RecyclerView)view.findViewById(R.id.image_recyclerview);
         mSwipeRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.layout_swipe_refresh);
         mStaggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
-        gImagesAdapter=new GImagesAdapter();
-        mRecyclerView.setAdapter(gImagesAdapter);
 
-        initListeners();
+
+
         return view;
+    }
+
+    public void initCallback(){
+        gImagesAdapter=new GImagesAdapter(urls);
+        mRecyclerView.setAdapter(gImagesAdapter);
+        initListeners();
+    }
+
+    public void loadMoreCallback(){
+        gImagesAdapter.setUrls(urls);
+        gImagesAdapter.insertItems(timesOfRequestPic,countOfRequestPic);
     }
 
     private void initListeners(){
@@ -73,7 +98,9 @@ public class ImageFragment extends Fragment {
             @Override
             public void onLoadMore(int currentPage) {
 //                gImagesAdapter.length+=1;
-                gImagesAdapter.notifyDataSetChanged();
+                timesOfRequestPic++;
+                mGImagePresenter.getGImageUrls(urls,countOfRequestPic,timesOfRequestPic);
+
             }
         });
         gImagesAdapter.setOnItemClickLitener(new GImagesAdapter.OnItemClickLitener() {

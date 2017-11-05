@@ -31,41 +31,50 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
     private int screenWidth;
     private Context mContext;
 
+    public void setUrls(List<String> urls) {
+        this.urls = urls;
+    }
+
+    private List<String> urls;
+    public GImagesAdapter(List<String> urls) {
+        this.urls = urls;
+    }
+
+
+
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MyViewHolder myViewHolder=new MyViewHolder(LayoutInflater
                 .from(parent.getContext()).inflate(R.layout.recycleview_item,parent,false));
-        mGImagePresenter=new GImagePresenter(parent.getContext());
+
         mContext=parent.getContext();
         initSize(parent);
         return myViewHolder;
     }
 
     private void initSize(ViewGroup parent){
-        getRandomHeight(length);
         Resources resources = parent.getContext().getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
         screenWidth = dm.widthPixels;
     }
-    private void getRandomHeight(int length){//得到随机item的高度
-        heights = new ArrayList<>();
-        for (int i = 0; i < length; i++) {
-            heights.add((int)(400+Math.random()*400));
-        }
-    }
+
 
     @Override
     public void onViewRecycled(MyViewHolder holder) {
         super.onViewRecycled(holder);
-        Glide.clear(holder.mImageView);
+        Glide.with(mContext).clear(holder.mImageView);
+
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
+        String url = urls.get(position);
+        Glide.with(mContext)
+                .load(url)
+                .into(holder.mImageView);
 
-        mGImagePresenter.attachMyView(holder.mImageView);
-        mGImagePresenter.getGImage(1,position+1);
         if (mOnItemClickLitener != null)
         {
             holder.itemView.setOnClickListener(new View.OnClickListener()
@@ -92,10 +101,16 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
 
     }
 
+    public void insertItems(int timesOfRequestPic,int countOfRequestPic){
+        for(int i=0;i<countOfRequestPic;i++){
+            int insertPlace=(timesOfRequestPic-1)*countOfRequestPic;
+            notifyItemInserted(insertPlace+i);
+        }
+    }
 
     @Override
     public int getItemCount() {
-        return length;
+        return urls.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

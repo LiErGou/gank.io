@@ -30,9 +30,14 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    compile ("com.github.bumptech.glide:recyclerview-integration:4.3.0") {
+        // Excludes the support library because it's already included by Glide.
+        transitive = false
+    }
     compile 'com.android.support:support-v4:26.+'
     compile 'com.android.support:recyclerview-v7:26.+'
     testCompile 'junit:junit:4.12'
+    compile 'com.github.bumptech.glide:glide:4.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
 }
