@@ -1,40 +1,37 @@
 package com.example.administrator.myapplication.ui.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.ListPreloader;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.util.ViewPreloadSizeProvider;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.service.presenter.GImagePresenter;
+import com.example.administrator.myapplication.app.GlideApp;
+import com.example.administrator.myapplication.ui.fragment.ImageFragment;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
  * Created by Administrator on 2017/11/1.
  */
 
-public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHolder> {
+public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHolder> implements
+        ListPreloader.PreloadModelProvider{
     private OnItemClickLitener mOnItemClickLitener;
-    private List<Integer> heights;
-    private GImagePresenter mGImagePresenter;
-    public int length=10;
-    public int picHeight;
-    private int screenWidth;
+
     private Context mContext;
-
-    public void setUrls(List<String> urls) {
-        this.urls = urls;
-    }
-
     private List<String> urls;
     public GImagesAdapter(List<String> urls) {
         this.urls = urls;
@@ -42,28 +39,25 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
 
 
 
-
+    public void setUrls(List<String> urls) {
+        this.urls = urls;
+    }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MyViewHolder myViewHolder=new MyViewHolder(LayoutInflater
                 .from(parent.getContext()).inflate(R.layout.recycleview_item,parent,false));
 
         mContext=parent.getContext();
-        initSize(parent);
+
         return myViewHolder;
     }
 
-    private void initSize(ViewGroup parent){
-        Resources resources = parent.getContext().getResources();
-        DisplayMetrics dm = resources.getDisplayMetrics();
-        screenWidth = dm.widthPixels;
-    }
 
 
     @Override
     public void onViewRecycled(MyViewHolder holder) {
         super.onViewRecycled(holder);
-        Glide.with(mContext).clear(holder.mImageView);
+//        Glide.with(mContext).clear(holder.mImageView);
 
     }
 
@@ -73,6 +67,7 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
         String url = urls.get(position);
         Glide.with(mContext)
                 .load(url)
+                .transition(withCrossFade())
                 .into(holder.mImageView);
 
         if (mOnItemClickLitener != null)
@@ -113,6 +108,23 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
         return urls.size();
     }
 
+    @NonNull
+    @Override
+    public List getPreloadItems(int position) {
+        String url = urls.get(position);
+        if (TextUtils.isEmpty(url)) {
+            return Collections.emptyList();
+        }
+        return Collections.singletonList(url);
+    }
+
+    @Nullable
+    @Override
+    public RequestBuilder getPreloadRequestBuilder(Object item) {
+        return GlideApp.with(mContext)
+                .load((String)item);
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView mImageView;
         public MyViewHolder(View itemView) {
@@ -120,6 +132,8 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
             mImageView=(ImageView)itemView.findViewById(R.id.gimage);
         }
     }
+
+
 
     public interface OnItemClickLitener
     {

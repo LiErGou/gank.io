@@ -3,21 +3,33 @@ package com.example.administrator.myapplication.ui.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.ListPreloader;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
+import com.bumptech.glide.util.ViewPreloadSizeProvider;
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.app.GlideApp;
 import com.example.administrator.myapplication.service.presenter.GImagePresenter;
 import com.example.administrator.myapplication.ui.EndlessOnScrollListener;
+import com.example.administrator.myapplication.ui.GridEndlessOnScrollListener;
 import com.example.administrator.myapplication.ui.adapter.GImagesAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -32,6 +44,9 @@ public class ImageFragment extends Fragment {
     private GImagePresenter mGImagePresenter;
     private int countOfRequestPic;
     private int timesOfRequestPic;
+    private RecyclerViewPreloader preloader;
+    ListPreloader.PreloadSizeProvider sizeProvider;
+    GridLayoutManager mGridLayoutManager;
 
     public ImageFragment() {
         // Required empty public constructor
@@ -66,8 +81,10 @@ public class ImageFragment extends Fragment {
         mRecyclerView=(RecyclerView)view.findViewById(R.id.image_recyclerview);
         mSwipeRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.layout_swipe_refresh);
         mStaggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
-
+//        mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
+        mGridLayoutManager=new GridLayoutManager(getContext(),2);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        sizeProvider=new ViewPreloadSizeProvider();
 
 
         return view;
@@ -85,6 +102,8 @@ public class ImageFragment extends Fragment {
     }
 
     private void initListeners(){
+        preloader = new RecyclerViewPreloader<>(
+                Glide.with(this),gImagesAdapter , sizeProvider, 8 /*maxPreload*/);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -94,7 +113,7 @@ public class ImageFragment extends Fragment {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
-        mRecyclerView.addOnScrollListener(new EndlessOnScrollListener(mStaggeredGridLayoutManager) {
+        mRecyclerView.addOnScrollListener(new GridEndlessOnScrollListener(mGridLayoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
 //                gImagesAdapter.length+=1;
@@ -103,6 +122,7 @@ public class ImageFragment extends Fragment {
 
             }
         });
+        mRecyclerView.addOnScrollListener(preloader);
         gImagesAdapter.setOnItemClickLitener(new GImagesAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -140,4 +160,5 @@ public class ImageFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
