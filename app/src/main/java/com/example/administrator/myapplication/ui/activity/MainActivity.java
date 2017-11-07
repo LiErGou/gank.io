@@ -1,54 +1,58 @@
 package com.example.administrator.myapplication.ui.activity;
 
+import android.graphics.Color;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
-import com.example.administrator.myapplication.service.entity.Book;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.service.presenter.BookPresenter;
-import com.example.administrator.myapplication.service.view.BookView;
+import com.example.administrator.myapplication.ui.adapter.MyFragmentAdapter;
+import com.example.administrator.myapplication.ui.fragment.ImageFragment;
+import com.example.administrator.myapplication.ui.fragment.InfoFragment;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button sendBtn;
-    private TextView tv;
-    private BookPresenter mBookPresenter;
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private CoordinatorLayout coordinator;
+    private MyFragmentAdapter mMyFragmentAdapter;
+    private static List<String> types =
+            Arrays.asList("all", "Android", "iOS", "休息视频", "拓展资源", "前端", "瞎推荐", "App");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sendBtn=(Button)findViewById(R.id.connect_btn);
-        tv=(TextView)findViewById(R.id.tv);
-        mBookPresenter=new BookPresenter(this);
-        mBookPresenter.onCreate();
-//        mBookPresenter.attachMyView(mBookView);mBookVie
-        sendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mBookPresenter.getSearchBooks("金瓶梅", null, 0, 1);
-            }
-        });
-
+        initView();
     }
 
-    private BookView mBookView=new BookView() {
-        @Override
-        public void onSuccess(Book book) {
-            tv.setText(book.toString());
-        }
+    private void initView(){
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        tabLayout=(TabLayout)findViewById(R.id.tabLayout);
+        viewPager=(ViewPager)findViewById(R.id.viewPager);
+        coordinator=(CoordinatorLayout)findViewById(R.id.coordinator);
+        mMyFragmentAdapter=new MyFragmentAdapter(getSupportFragmentManager());
+        addFragments();
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
+        tabLayout.setTabTextColors(Color.WHITE, Color.WHITE);
 
-        @Override
-        public void onError(String result) {
-            Toast.makeText(MainActivity.this,result, Toast.LENGTH_SHORT).show();
+        viewPager.setAdapter(mMyFragmentAdapter);
+    }
+
+    private void addFragments(){
+        mMyFragmentAdapter.addFragment(new ImageFragment(),"福利");
+        for(int i=0;i<types.size();i++){
+            mMyFragmentAdapter.addFragment(InfoFragment.newInstance(types.get(i)),types.get(i));
         }
-    };
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        mBookPresenter.onStop();
     }
 }

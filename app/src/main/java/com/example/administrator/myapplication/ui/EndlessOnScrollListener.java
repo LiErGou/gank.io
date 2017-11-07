@@ -32,17 +32,22 @@ public abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListe
     public EndlessOnScrollListener(StaggeredGridLayoutManager staggeredGridLayoutManager) {
         mStaggeredGridLayoutManager = staggeredGridLayoutManager;
     }
-
+    private int i=0;
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
         visibleItemCount = recyclerView.getChildCount();
         totalItemCount = mStaggeredGridLayoutManager.getItemCount();
         firstVisibleItems = mStaggeredGridLayoutManager.findFirstVisibleItemPositions (firstVisibleItems);
-        if(loading){
+        i++;
+        if(i%50==0){
             Log.d("wnwn","firstVisibleItem: " +firstVisibleItems[0]);
-            Log.d("wnwn","totalPageCount:" +totalItemCount);
             Log.d("wnwn", "visibleItemCount:" + visibleItemCount);
+        }
+        if(loading){
+//            Log.d("wnwn","firstVisibleItem: " +firstVisibleItems[0]);
+//            Log.d("wnwn","totalPageCount:" +totalItemCount);
+//            Log.d("wnwn", "visibleItemCount:" + visibleItemCount);
 
             if(totalItemCount > previousTotal){
                 //说明数据已经加载结束
@@ -52,6 +57,7 @@ public abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListe
         }
         //这里需要好好理解
         if (!loading && totalItemCount-visibleItemCount <= firstVisibleItems[0]){
+            Log.d("wnwn", "LoadMore excute:" );
             currentPage ++;
             onLoadMore(currentPage);
             loading = true;

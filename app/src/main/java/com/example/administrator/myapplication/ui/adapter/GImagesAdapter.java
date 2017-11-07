@@ -5,13 +5,17 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.service.presenter.GImagePresenter;
 
@@ -63,6 +67,7 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
     @Override
     public void onViewRecycled(MyViewHolder holder) {
         super.onViewRecycled(holder);
+        Log.d("licl","onViewRecycled excute");
         Glide.with(mContext).clear(holder.mImageView);
 
     }
@@ -71,10 +76,21 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         String url = urls.get(position);
-        Glide.with(mContext)
-                .load(url)
-                .into(holder.mImageView);
 
+        Glide.with(mContext)
+                .asBitmap()
+                .load(url)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                        StaggeredGridLayoutManager.LayoutParams layoutParams =
+                                (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+                        int height = resource.getHeight()/2;
+                        layoutParams.height = height;
+                        holder.mImageView.setImageBitmap(resource);
+                        holder.itemView.setLayoutParams(layoutParams);
+                    }
+                });
         if (mOnItemClickLitener != null)
         {
             holder.itemView.setOnClickListener(new View.OnClickListener()
