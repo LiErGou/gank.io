@@ -27,11 +27,13 @@ public class MainActivity extends AppCompatActivity {
     private MyFragmentAdapter mMyFragmentAdapter;
     private static List<String> types =
             Arrays.asList("all", "Android", "iOS", "休息视频", "拓展资源", "前端", "瞎推荐", "App");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        initToolbar();
     }
 
     private void initView(){
@@ -44,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
-        tabLayout.setTabTextColors(Color.WHITE, Color.WHITE);
-
+        tabLayout.setTabTextColors(Color.GRAY, Color.WHITE);
         viewPager.setAdapter(mMyFragmentAdapter);
     }
 
@@ -54,5 +55,11 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<types.size();i++){
             mMyFragmentAdapter.addFragment(InfoFragment.newInstance(types.get(i)),types.get(i));
         }
+    }
+
+    private void initToolbar() {
+        toolbar.setTitle(getString(R.string.app_name));
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
     }
 }

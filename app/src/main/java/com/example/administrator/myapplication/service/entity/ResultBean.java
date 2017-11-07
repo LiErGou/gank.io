@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Administrator on 2017/11/1.
  */
 
-public class GImageBean {
+public class ResultBean {
 
     /**
      * error : false

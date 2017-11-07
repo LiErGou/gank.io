@@ -1,13 +1,10 @@
 package com.example.administrator.myapplication.service.utils;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.example.administrator.myapplication.service.entity.GImageBean;
-import com.example.administrator.myapplication.ui.adapter.GImagesAdapter;
+import com.example.administrator.myapplication.service.entity.ResultBean;
 
 /**
  * Created by Administrator on 2017/11/1.
@@ -18,12 +15,12 @@ public class ImageUtils {
     public static void loadPic(Context context,String url, ImageView view){
         Glide.with(context).load(url).into(view);
     }
-    public static void loadPic(Context context, GImageBean gImageBean, ImageView view){
+    public static void loadPic(Context context, ResultBean resultBean, ImageView view){
 
 
         Glide.with(context)
                 .asBitmap()
-                .load(gImageBean.getResults().get(0).getUrl())
+                .load(resultBean.getResults().get(0).getUrl())
 
 
                 .into(view);

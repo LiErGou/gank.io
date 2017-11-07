@@ -1,12 +1,9 @@
 package com.example.administrator.myapplication.ui.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.service.presenter.GImagePresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,41 +22,29 @@ import java.util.List;
  */
 
 public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHolder> {
+
     private OnItemClickLitener mOnItemClickLitener;
-    private List<Integer> heights;
-    private GImagePresenter mGImagePresenter;
-    public int length=10;
-    public int picHeight;
-    private int screenWidth;
     private Context mContext;
-
-    public void setUrls(List<String> urls) {
-        this.urls = urls;
-    }
-
     private List<String> urls;
+
     public GImagesAdapter(List<String> urls) {
         this.urls = urls;
     }
-
+    public void setUrls(List<String> urls) {
+        this.urls = urls;
+    }
 
 
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MyViewHolder myViewHolder=new MyViewHolder(LayoutInflater
-                .from(parent.getContext()).inflate(R.layout.recycleview_item,parent,false));
+                .from(parent.getContext()).inflate(R.layout.image_recycleview_item,parent,false));
 
         mContext=parent.getContext();
-        initSize(parent);
         return myViewHolder;
     }
 
-    private void initSize(ViewGroup parent){
-        Resources resources = parent.getContext().getResources();
-        DisplayMetrics dm = resources.getDisplayMetrics();
-        screenWidth = dm.widthPixels;
-    }
 
 
     @Override

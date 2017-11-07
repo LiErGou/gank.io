@@ -2,12 +2,10 @@ package com.example.administrator.myapplication.service.http;
 
 
 
-import com.example.administrator.myapplication.service.entity.Book;
-import com.example.administrator.myapplication.service.entity.GImageBean;
+import com.example.administrator.myapplication.service.entity.ResultBean;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -16,8 +14,16 @@ import rx.Observable;
 
 public interface ImageService {
     @GET("api/data/福利/{count}/{page}")
-    Observable<GImageBean> getGirls(
+    Observable<ResultBean> getGirls(
             @Path("count") int count,
             @Path("page") int page
     );
+
+    @GET("api/data/{type}/{count}/{page}")
+    Observable<ResultBean> getDatas(
+            @Path("type") String type,
+            @Path("count") int count,
+            @Path("page") int page
+    );
+
 }

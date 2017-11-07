@@ -17,12 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitHelper {
 
     private static RetrofitHelper instance=null;
-
     private Context mContext;
-
-
-
-
     private Retrofit mRetrofit;
     private OkHttpClient mOkHttpClient= new OkHttpClient();;
     private GsonConverterFactory mFactory=GsonConverterFactory.create(new GsonBuilder().create());;

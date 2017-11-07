@@ -5,9 +5,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.administrator.myapplication.service.entity.GImageBean;
+import com.example.administrator.myapplication.service.entity.ResultBean;
 import com.example.administrator.myapplication.service.manager.DataManager;
 import com.example.administrator.myapplication.service.utils.ImageUtils;
+import com.example.administrator.myapplication.ui.fragment.BaseFragment;
 import com.example.administrator.myapplication.ui.fragment.ImageFragment;
 
 import java.util.List;
@@ -21,25 +22,25 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Administrator on 2017/11/1.
  */
 
-public class GImagePresenter implements Presenter {
+public class DataPresenter implements Presenter {
 
 
 
 
-    private ImageFragment mImageFragment;
+    private BaseFragment mBaseFragment;
     private Context mContext;
     private ImageView mImageView;
     private DataManager mDataManager;
     private CompositeSubscription mCompositeSubscription;
-    private GImageBean mGImageBean;
+    private ResultBean mResultBean;
 
-    public GImagePresenter(Context context) {
+    public DataPresenter(Context context) {
         mContext = context;
         mDataManager=new DataManager(context);
         mCompositeSubscription=new CompositeSubscription();
     }
-    public void setImageFragment(ImageFragment GImagesAdapter) {
-        mImageFragment = GImagesAdapter;
+    public void setBaseFragment(BaseFragment GImagesAdapter) {
+        mBaseFragment = GImagesAdapter;
     }
     @Override
     public void onCreate() {
@@ -68,23 +69,22 @@ public class GImagePresenter implements Presenter {
         mImageView=(ImageView) view;
     }
 
-    public void getGImageUrls(final List<String> urls, final int count, final int page){
-
-        mCompositeSubscription.add(mDataManager.getGImage(count,page)
+    public void getDataUrls(String type,final List<String> urls, final int count, final int page){
+        mCompositeSubscription.add(mDataManager.getData(type,count,page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<GImageBean>() {
+                .subscribe(new Observer<ResultBean>() {
                                @Override
                                public void onCompleted() {
-                                   if(mGImageBean!=null){
+                                   if(mResultBean !=null){
                                        for(int i=0;i<count;i++){
-                                           urls.add(mGImageBean.getResults().get(i).getUrl());
+                                           urls.add(mResultBean.getResults().get(i).getUrl());
                                        }
-                                       mImageFragment.setUrls(urls);
+                                       mBaseFragment.setUrls(urls);
                                        if(page==1){
-                                           mImageFragment.initCallback();
+                                           mBaseFragment.initCallback();
                                        }else {
-                                           mImageFragment.loadMoreCallback();
+                                           mBaseFragment.loadMoreCallback();
                                        }
 
                                    }
@@ -96,8 +96,8 @@ public class GImagePresenter implements Presenter {
                                }
 
                                @Override
-                               public void onNext(GImageBean gImageBean) {
-                                   mGImageBean=gImageBean;
+                               public void onNext(ResultBean resultBean) {
+                                   mResultBean = resultBean;
                                }
                            }
                 )
@@ -105,17 +105,20 @@ public class GImagePresenter implements Presenter {
 
     }
 
+    public void getGImageUrls(final List<String> urls, final int count, final int page){
+        getDataUrls("福利",urls,count,page);
+    }
+
 
     public void getGImage(int count,int page){
-
         mCompositeSubscription.add(mDataManager.getGImage(count,page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<GImageBean>() {
+                .subscribe(new Observer<ResultBean>() {
                     @Override
                     public void onCompleted() {
-                        if(mGImageBean!=null){
-                            ImageUtils.loadPic(mContext,mGImageBean,mImageView);
+                        if(mResultBean !=null){
+                            ImageUtils.loadPic(mContext, mResultBean,mImageView);
                         }
                     }
 
@@ -125,8 +128,8 @@ public class GImagePresenter implements Presenter {
                     }
 
                     @Override
-                    public void onNext(GImageBean gImageBean) {
-                        mGImageBean=gImageBean;
+                    public void onNext(ResultBean resultBean) {
+                        mResultBean = resultBean;
                     }
                 }
                 )

@@ -44,9 +44,13 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        // super.destroyItem(container, position, object);
         Fragment fragment = mFragments.get(position);
         mFragmentManager.beginTransaction().hide(fragment).commit();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mTitles.get(position);
     }
 
     public void addFragment(Fragment fragment, String title){

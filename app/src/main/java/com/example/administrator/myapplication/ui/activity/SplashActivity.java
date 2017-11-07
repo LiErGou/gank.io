@@ -3,20 +3,18 @@ package com.example.administrator.myapplication.ui.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.service.presenter.GImagePresenter;
+import com.example.administrator.myapplication.service.presenter.DataPresenter;
 
 import java.util.Random;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private GImagePresenter mGImagePresenter;
+    private DataPresenter mDataPresenter;
     private ImageView mImageView;
     private ScaleAnimation scaleAnimation;
     @Override
@@ -26,18 +24,18 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         mImageView=(ImageView)findViewById(R.id.splashimageView);
-        mGImagePresenter=new GImagePresenter(this);
-        mGImagePresenter.onCreate();
-        mGImagePresenter.attachMyView(mImageView);
+        mDataPresenter =new DataPresenter(this);
+        mDataPresenter.onCreate();
+        mDataPresenter.attachMyView(mImageView);
         int picNum = new Random().nextInt(6) + 1;
-        mGImagePresenter.getGImage(1,picNum);
+        mDataPresenter.getGImage(1,picNum);
         initAnimation();
     }
 
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        mGImagePresenter.onStop();
+        mDataPresenter.onStop();
     }
 
     private void initAnimation(){
