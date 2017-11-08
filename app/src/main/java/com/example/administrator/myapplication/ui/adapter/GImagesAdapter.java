@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,6 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         String url = urls.get(position);
-
         Glide.with(mContext)
                 .asBitmap()
                 .load(url)
@@ -114,9 +114,11 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView mImageView;
+        CardView mCardView;
         public MyViewHolder(View itemView) {
             super(itemView);
             mImageView=(ImageView)itemView.findViewById(R.id.gimage);
+            mCardView=(CardView)itemView.findViewById(R.id.image_cardview);
         }
     }
 

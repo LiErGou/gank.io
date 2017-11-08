@@ -17,9 +17,12 @@ import java.util.List;
 
 public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder> {
 
+    private OnItemClickLitener mOnItemClickLitener;
     private List<String> mUrls;
     private Context mContext;
-
+    protected List<String> mWhos;
+    protected List<String> mTime;
+    protected List<String> mTitles;
     public InfoAdapter(List<String> urls) {
         mUrls = urls;
     }
@@ -34,10 +37,49 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
     }
 
     @Override
-    public void onBindViewHolder(InfoViewHolder holder, int position) {
-        holder.mItemTitle.setText(mUrls.get(position));
+    public void onBindViewHolder(final InfoViewHolder holder, int position) {
+        holder.mItemTitle.setText(mTitles.get(position));
+        holder.mWhoTime.setText(mWhos.get(position));
+        if (mOnItemClickLitener != null)
+        {
+            holder.itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    int pos = holder.getLayoutPosition();
+                    mOnItemClickLitener.onItemClick(holder.itemView, pos);
+                }
+            });
+
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener()
+            {
+                @Override
+                public boolean onLongClick(View v)
+                {
+                    int pos = holder.getLayoutPosition();
+                    mOnItemClickLitener.onItemLongClick(holder.itemView, pos);
+                    return false;
+                }
+            });
+        }
     }
 
+    public void setUrls(List<String> urls) {
+        mUrls = urls;
+    }
+
+    public void setWhos(List<String> whos) {
+        mWhos = whos;
+    }
+
+    public void setTime(List<String> time) {
+        mTime = time;
+    }
+
+    public void setTitles(List<String> titles) {
+        mTitles = titles;
+    }
 
     @Override
     public int getItemCount() {
@@ -51,6 +93,21 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.InfoViewHolder
             super(itemView);
             mItemTitle=(TextView)itemView.findViewById(R.id.item_titile);
             mWhoTime=(TextView)itemView.findViewById(R.id.item_who_time);
+        }
+    }
+    public interface OnItemClickLitener
+    {
+        void onItemClick(View view, int position);
+        void onItemLongClick(View view , int position);
+    }
+    public void setOnItemClickLitener(OnItemClickLitener onItemClickLitener)
+    {
+        this.mOnItemClickLitener = onItemClickLitener;
+    }
+    public void insertItems(int timesOfRequestPic,int countOfRequestPic){
+        for(int i=0;i<countOfRequestPic;i++){
+            int insertPlace=(timesOfRequestPic-1)*countOfRequestPic;
+            notifyItemInserted(insertPlace+i);
         }
     }
 }

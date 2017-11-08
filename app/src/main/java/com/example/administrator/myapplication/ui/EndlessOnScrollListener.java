@@ -1,5 +1,6 @@
 package com.example.administrator.myapplication.ui;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -12,7 +13,7 @@ public abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListe
     private int currentPage = 0;
     //声明一个LinearLayoutManager
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
-
+    private LinearLayoutManager mLinearLayoutManager;
     //当前页，从0开始    private int currentPage = 0;
     //已经加载出来的Item的数量
     private int totalItemCount;
@@ -32,18 +33,24 @@ public abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListe
     public EndlessOnScrollListener(StaggeredGridLayoutManager staggeredGridLayoutManager) {
         mStaggeredGridLayoutManager = staggeredGridLayoutManager;
     }
+    public EndlessOnScrollListener(LinearLayoutManager linearLayoutManager){
+        mLinearLayoutManager=linearLayoutManager;
+    }
     private int i=0;
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
         visibleItemCount = recyclerView.getChildCount();
-        totalItemCount = mStaggeredGridLayoutManager.getItemCount();
-        firstVisibleItems = mStaggeredGridLayoutManager.findFirstVisibleItemPositions (firstVisibleItems);
-        i++;
-        if(i%50==0){
-            Log.d("wnwn","firstVisibleItem: " +firstVisibleItems[0]);
-            Log.d("wnwn", "visibleItemCount:" + visibleItemCount);
+        if(mStaggeredGridLayoutManager!=null){
+            totalItemCount = mStaggeredGridLayoutManager.getItemCount();
+            firstVisibleItems = mStaggeredGridLayoutManager.findFirstVisibleItemPositions (firstVisibleItems);
+            firstVisibleItem=firstVisibleItems[0];
         }
+        if(mLinearLayoutManager!=null){
+            totalItemCount = mLinearLayoutManager.getItemCount();
+            firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition ();
+        }
+
         if(loading){
 //            Log.d("wnwn","firstVisibleItem: " +firstVisibleItems[0]);
 //            Log.d("wnwn","totalPageCount:" +totalItemCount);
@@ -56,7 +63,7 @@ public abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListe
             }
         }
         //这里需要好好理解
-        if (!loading && totalItemCount-visibleItemCount <= firstVisibleItems[0]){
+        if (!loading && totalItemCount-visibleItemCount <= firstVisibleItem){
             Log.d("wnwn", "LoadMore excute:" );
             currentPage ++;
             onLoadMore(currentPage);

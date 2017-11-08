@@ -82,7 +82,8 @@ public class ImageFragment extends BaseFragment {
         gImagesAdapter.insertItems(timesOfRequestInfo,countOfRequestInfo);
     }
 
-    private void initListeners(){
+    @Override
+    void initListeners(){
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -20,10 +20,27 @@ public abstract class BaseFragment extends Fragment {
     protected int countOfRequestInfo;
     protected int timesOfRequestInfo;
     protected DataPresenter mDataPresenter;
+    protected List<String> mTitles;
 
+
+
+    protected List<String> mWhos;
+    protected List<String> mTimes;
     public void setUrls(List<String> urls) {
         this.mUrls = urls;
     }
     public abstract void initCallback();
     public abstract void loadMoreCallback();
+    public void setTitles(List<String> titles) {
+
+    }
+
+    public void setWhos(List<String> whos) {
+
+    }
+
+    public void setTimes(List<String> times) {
+
+    }
+    abstract  void initListeners();
 }
