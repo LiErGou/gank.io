@@ -1,5 +1,6 @@
 package com.example.administrator.myapplication.ui.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.service.presenter.DataPresenter;
 import com.example.administrator.myapplication.ui.EndlessOnScrollListener;
+import com.example.administrator.myapplication.ui.activity.WebActivity;
 import com.example.administrator.myapplication.ui.adapter.InfoAdapter;
 
 import java.util.ArrayList;
@@ -130,6 +132,9 @@ public class InfoFragment extends BaseFragment {
         mInfoAdapter.setOnItemClickLitener(new InfoAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
+                Intent intent=new Intent(getContext(), WebActivity.class);
+                intent.putExtra("url",mUrls.get(position));
+                startActivity(intent);
                 Toast.makeText(getContext(),"click"+position,Toast.LENGTH_SHORT).show();
             }
 
