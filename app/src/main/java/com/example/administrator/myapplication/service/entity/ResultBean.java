@@ -8,9 +8,10 @@ import java.util.List;
 
 public class ResultBean {
 
+
     /**
      * error : false
-     * results : [{"_id":"59f7e677421aa90fe72535de","createdAt":"2017-10-31T10:56:55.988Z","desc":"10-31","publishedAt":"2017-10-31T12:25:55.217Z","source":"chrome","type":"福利","url":"http://7xi8d6.com1.z0.glb.clouddn.com/2017-10-31-nozomisasaki_official_31_10_2017_10_49_17_24.jpg","used":true,"who":"代码家"}]
+     * results : [{"_id":"5a4362db421aa90fe50c02a9","createdAt":"2017-12-27T17:07:39.802Z","desc":"图解RxJava2(三)","images":["http://img.gank.io/40c7c720-b439-4e77-9b3b-12ce12b6eb6a"],"publishedAt":"2018-01-04T13:45:57.211Z","source":"web","type":"Android","url":"http://rkhcy.github.io/2017/12/22/%E5%9B%BE%E8%A7%A3RxJava2(%E4%B8%89)/","used":true,"who":"HuYounger"}]
      */
 
     private boolean error;
@@ -34,15 +35,16 @@ public class ResultBean {
 
     public static class ResultsBean {
         /**
-         * _id : 59f7e677421aa90fe72535de
-         * createdAt : 2017-10-31T10:56:55.988Z
-         * desc : 10-31
-         * publishedAt : 2017-10-31T12:25:55.217Z
-         * source : chrome
-         * type : 福利
-         * url : http://7xi8d6.com1.z0.glb.clouddn.com/2017-10-31-nozomisasaki_official_31_10_2017_10_49_17_24.jpg
+         * _id : 5a4362db421aa90fe50c02a9
+         * createdAt : 2017-12-27T17:07:39.802Z
+         * desc : 图解RxJava2(三)
+         * images : ["http://img.gank.io/40c7c720-b439-4e77-9b3b-12ce12b6eb6a"]
+         * publishedAt : 2018-01-04T13:45:57.211Z
+         * source : web
+         * type : Android
+         * url : http://rkhcy.github.io/2017/12/22/%E5%9B%BE%E8%A7%A3RxJava2(%E4%B8%89)/
          * used : true
-         * who : 代码家
+         * who : HuYounger
          */
 
         private String _id;
@@ -54,6 +56,7 @@ public class ResultBean {
         private String url;
         private boolean used;
         private String who;
+        private List<String> images;
 
         public String get_id() {
             return _id;
@@ -125,6 +128,14 @@ public class ResultBean {
 
         public void setWho(String who) {
             this.who = who;
+        }
+
+        public List<String> getImages() {
+            return images;
+        }
+
+        public void setImages(List<String> images) {
+            this.images = images;
         }
     }
 }

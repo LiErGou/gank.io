@@ -53,10 +53,12 @@ public class InfoFragment extends BaseFragment {
         mTitles=new ArrayList<>();
         mWhos=new ArrayList<>();
         mTimes =new ArrayList<>();
+        mResultTypes=new ArrayList<>();
+        mImageUrls=new ArrayList<>();
         countOfRequestInfo =10;
         timesOfRequestInfo =1;
 
-        mDataPresenter.getDataUrls(mType, mUrls, mTitles,mWhos,mTimes,countOfRequestInfo, timesOfRequestInfo);
+        mDataPresenter.getDataUrls(mType, mUrls, mTitles,mWhos,mTimes,countOfRequestInfo, timesOfRequestInfo,mResultTypes,mImageUrls);
 
     }
 
@@ -110,6 +112,16 @@ public class InfoFragment extends BaseFragment {
     }
 
     @Override
+    public void setResultTypes(List<String> resultTypes) {
+        mResultTypes=resultTypes;
+    }
+
+    @Override
+    public void setImageUrls(List<String> imageUrls) {
+        mImageUrls=imageUrls;
+    }
+
+    @Override
     void initListeners() {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -125,7 +137,7 @@ public class InfoFragment extends BaseFragment {
 //                gImagesAdapter.length+=1;
                 timesOfRequestInfo++;
                 mDataPresenter.getDataUrls(mType,mUrls,mTitles,mWhos,mTimes,
-                        countOfRequestInfo,timesOfRequestInfo);
+                        countOfRequestInfo,timesOfRequestInfo,mResultTypes,mImageUrls);
 
             }
         });
@@ -151,6 +163,8 @@ public class InfoFragment extends BaseFragment {
         mInfoAdapter.setTime(mTimes);
         mInfoAdapter.setTitles(mTitles);
         mInfoAdapter.setWhos(mWhos);
+        mInfoAdapter.setImageUrls(mImageUrls);
+        mInfoAdapter.setResultTypes(mResultTypes);
         mRecyclerView.setAdapter(mInfoAdapter);
         initListeners();
     }
@@ -161,6 +175,8 @@ public class InfoFragment extends BaseFragment {
         mInfoAdapter.setTime(mTimes);
         mInfoAdapter.setTitles(mTitles);
         mInfoAdapter.setWhos(mWhos);
+        mInfoAdapter.setImageUrls(mImageUrls);
+        mInfoAdapter.setResultTypes(mResultTypes);
         mInfoAdapter.insertItems(timesOfRequestInfo,countOfRequestInfo);
     }
 

@@ -69,8 +69,8 @@ public class DataPresenter implements Presenter {
         mImageView=(ImageView) view;
     }
 
-    public void getDataUrls(String type,final List<String> urls,  final List<String> titles,
-                            final List<String> whos,final List<String> times,final int count, final int page){
+    public void getDataUrls(String type, final List<String> urls, final List<String> titles,
+                            final List<String> whos, final List<String> times, final int count, final int page, final List<String> resultTypes, final List<String> imageUrls){
 
         mCompositeSubscription.add(mDataManager.getData(type,count,page)
                 .subscribeOn(Schedulers.io())
@@ -84,17 +84,24 @@ public class DataPresenter implements Presenter {
                                            titles.add(mResultBean.getResults().get(i).getDesc());
                                            whos.add(mResultBean.getResults().get(i).getWho());
                                            times.add(mResultBean.getResults().get(i).getPublishedAt());
+                                           resultTypes.add(mResultBean.getResults().get(i).getType());
+                                           if(mResultBean.getResults().get(i).getImages().size()>0){
+                                               imageUrls.add(mResultBean.getResults().get(i).getImages().get(0));
+                                           }else{
+                                               imageUrls.add(null);
+                                           }
                                        }
                                        mBaseFragment.setUrls(urls);
                                        mBaseFragment.setTitles(titles);
                                        mBaseFragment .setWhos(whos);
                                        mBaseFragment.setTimes(times);
+                                       mBaseFragment.setResultTypes(resultTypes);
+                                       mBaseFragment.setImageUrls(imageUrls);
                                        if(page==1){
                                            mBaseFragment.initCallback();
                                        }else {
                                            mBaseFragment.loadMoreCallback();
                                        }
-
                                    }
                                }
 
@@ -113,11 +120,12 @@ public class DataPresenter implements Presenter {
 
     }
 
-    public void getGImageUrls(final List<String> urls, final int count, final int page){
+    public void getGImageUrls(final List<String> urls, final int count, final int page,final List<String> resultTypes){
         List<String> titles=new ArrayList<>();
         List<String> whos=new ArrayList<>();
         List<String> times=new ArrayList<>();
-        getDataUrls("福利",urls,titles,whos,times,count,page);
+        List<String> imageUrls=new ArrayList<>();
+        getDataUrls("福利",urls,titles,whos,times,count,page,resultTypes,imageUrls);
     }
 
 

@@ -21,11 +21,11 @@ public abstract class BaseFragment extends Fragment {
     protected int timesOfRequestInfo;
     protected DataPresenter mDataPresenter;
     protected List<String> mTitles;
-
-
-
+    protected List<String> mResultTypes;
+    protected List<String> mImageUrls;
     protected List<String> mWhos;
     protected List<String> mTimes;
+
     public void setUrls(List<String> urls) {
         this.mUrls = urls;
     }
@@ -39,8 +39,17 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
+    public void setResultTypes(List<String> resultTypes) {
+
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+
+    }
+
     public void setTimes(List<String> times) {
 
     }
+
     abstract  void initListeners();
 }
