@@ -63,6 +63,23 @@ public class InfoAdapter extends RecyclerView.Adapter {
             final InfoViewHolder infoViewHolder=(InfoViewHolder)holder;
             infoViewHolder.mItemTitle.setText(mTitles.get(position));
             infoViewHolder.mWhoTime.setText(mWhos.get(position));
+            String url = mImageUrls.get(position);
+            if(url!=null){
+                Glide.with(mContext)
+                        .asBitmap()
+                        .load(url)
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                RecyclerView.LayoutParams layoutParams =
+                                        (RecyclerView.LayoutParams ) infoViewHolder.itemView.getLayoutParams();
+                                int height = resource.getHeight()/2;
+                                layoutParams.height = height;
+                                infoViewHolder.mInfoImage.setImageBitmap(resource);
+                                infoViewHolder.itemView.setLayoutParams(layoutParams);
+                            }
+                        });
+            }
             if (mOnItemClickLitener != null)
             {
                 infoViewHolder.itemView.setOnClickListener(new View.OnClickListener()
@@ -173,10 +190,12 @@ public class InfoAdapter extends RecyclerView.Adapter {
     class InfoViewHolder extends RecyclerView.ViewHolder{
         TextView mItemTitle;
         TextView mWhoTime;
+        ImageView mInfoImage;
         public InfoViewHolder(View itemView) {
             super(itemView);
             mItemTitle=(TextView)itemView.findViewById(R.id.item_titile);
             mWhoTime=(TextView)itemView.findViewById(R.id.item_who_time);
+            mInfoImage=(ImageView)itemView.findViewById(R.id.info_image);
         }
     }
     public class ImageViewHolder extends RecyclerView.ViewHolder{

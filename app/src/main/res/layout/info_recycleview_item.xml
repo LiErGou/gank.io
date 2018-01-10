@@ -19,9 +19,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
+        android:layout_marginLeft="5dp"
         android:gravity="left"
         android:textColor="@android:color/black"
         android:textSize="18sp"/>
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/info_image" />
         <TextView
             android:id="@+id/item_who_time"
             android:layout_width="match_parent"
