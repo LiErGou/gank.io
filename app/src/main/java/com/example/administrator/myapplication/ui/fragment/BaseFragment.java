@@ -40,11 +40,11 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void setResultTypes(List<String> resultTypes) {
-
+        mResultTypes=resultTypes;
     }
 
     public void setImageUrls(List<String> imageUrls) {
-
+        mImageUrls=imageUrls;
     }
 
     public void setTimes(List<String> times) {

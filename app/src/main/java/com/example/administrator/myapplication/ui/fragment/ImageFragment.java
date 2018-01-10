@@ -58,14 +58,11 @@ public class ImageFragment extends BaseFragment {
         countOfRequestInfo=10;
         timesOfRequestInfo=1;
         mUrls=new ArrayList<>();
-        mDataPresenter.getGImageUrls(mUrls,countOfRequestInfo,timesOfRequestInfo,mResultTypes);
+        mDataPresenter.getGImageUrls(mUrls,countOfRequestInfo,timesOfRequestInfo);
         mRecyclerView=(RecyclerView)view.findViewById(R.id.image_recyclerview);
         mSwipeRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.layout_swipe_refresh);
         mStaggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
-
-
-
         return view;
     }
 
@@ -98,7 +95,7 @@ public class ImageFragment extends BaseFragment {
             public void onLoadMore(int currentPage) {
 //                gImagesAdapter.length+=1;
                 timesOfRequestInfo++;
-                mDataPresenter.getGImageUrls(mUrls,countOfRequestInfo,timesOfRequestInfo,mResultTypes);
+                mDataPresenter.getGImageUrls(mUrls,countOfRequestInfo,timesOfRequestInfo);
 
             }
         });

@@ -3,12 +3,14 @@ package com.example.administrator.myapplication.ui.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -45,10 +47,10 @@ public class InfoAdapter extends RecyclerView.Adapter {
         RecyclerView.ViewHolder myViewHolder;
 
         if(viewType==IMAGE_TYPE){
-             myViewHolder=new InfoViewHolder(LayoutInflater
+             myViewHolder=new ImageViewHolder(LayoutInflater
                     .from(parent.getContext()).inflate(R.layout.image_recycleview_item,parent,false));
         }else{
-            myViewHolder=new ImageViewHolder(LayoutInflater
+            myViewHolder=new InfoViewHolder(LayoutInflater
                     .from(parent.getContext()).inflate(R.layout.info_recycleview_item,parent,false));
         }
         mContext=parent.getContext();
@@ -95,8 +97,8 @@ public class InfoAdapter extends RecyclerView.Adapter {
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                            StaggeredGridLayoutManager.LayoutParams layoutParams =
-                                    (StaggeredGridLayoutManager.LayoutParams) imageViewHolder.itemView.getLayoutParams();
+                            RecyclerView.LayoutParams layoutParams =
+                                    (RecyclerView.LayoutParams ) imageViewHolder.itemView.getLayoutParams();
                             int height = resource.getHeight()/2;
                             layoutParams.height = height;
                             imageViewHolder.mImageView.setImageBitmap(resource);

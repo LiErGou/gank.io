@@ -85,7 +85,7 @@ public class DataPresenter implements Presenter {
                                            whos.add(mResultBean.getResults().get(i).getWho());
                                            times.add(mResultBean.getResults().get(i).getPublishedAt());
                                            resultTypes.add(mResultBean.getResults().get(i).getType());
-                                           if(mResultBean.getResults().get(i).getImages().size()>0){
+                                           if(mResultBean.getResults().get(i).getImages()!=null){
                                                imageUrls.add(mResultBean.getResults().get(i).getImages().get(0));
                                            }else{
                                                imageUrls.add(null);
@@ -120,10 +120,11 @@ public class DataPresenter implements Presenter {
 
     }
 
-    public void getGImageUrls(final List<String> urls, final int count, final int page,final List<String> resultTypes){
+    public void getGImageUrls(final List<String> urls, final int count, final int page){
         List<String> titles=new ArrayList<>();
         List<String> whos=new ArrayList<>();
         List<String> times=new ArrayList<>();
+        List<String> resultTypes=new ArrayList<>();
         List<String> imageUrls=new ArrayList<>();
         getDataUrls("福利",urls,titles,whos,times,count,page,resultTypes,imageUrls);
     }

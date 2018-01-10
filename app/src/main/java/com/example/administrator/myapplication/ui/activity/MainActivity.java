@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager=(ViewPager)findViewById(R.id.viewPager);
         coordinator=(CoordinatorLayout)findViewById(R.id.coordinator);
         mMyFragmentAdapter=new MyFragmentAdapter(getSupportFragmentManager());
+//        mMyFragmentAdapter.addFragment(new ImageFragment(),"福利");//
         addFragments();
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
