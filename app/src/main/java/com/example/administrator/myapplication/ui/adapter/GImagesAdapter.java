@@ -40,7 +40,7 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MyViewHolder myViewHolder=new MyViewHolder(LayoutInflater
-                .from(parent.getContext()).inflate(R.layout.image_recycleview_item,parent,false));
+                .from(parent.getContext()).inflate(R.layout.item_image_recycleview,parent,false));
 
         mContext=parent.getContext();
         return myViewHolder;
