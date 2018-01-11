@@ -32,11 +32,11 @@ public abstract class BaseFragment extends Fragment {
     public abstract void initCallback();
     public abstract void loadMoreCallback();
     public void setTitles(List<String> titles) {
-
+        mTitles=titles;
     }
 
     public void setWhos(List<String> whos) {
-
+        mWhos=whos;
     }
 
     public void setResultTypes(List<String> resultTypes) {
@@ -48,7 +48,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void setTimes(List<String> times) {
-
+        mTimes=times;
     }
 
     abstract  void initListeners();

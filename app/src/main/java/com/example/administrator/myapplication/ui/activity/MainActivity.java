@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.ui.adapter.MyFragmentAdapter;
+import com.example.administrator.myapplication.ui.fragment.DailyFragment;
 import com.example.administrator.myapplication.ui.fragment.ImageFragment;
 import com.example.administrator.myapplication.ui.fragment.InfoFragment;
 
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager=(ViewPager)findViewById(R.id.viewPager);
         coordinator=(CoordinatorLayout)findViewById(R.id.coordinator);
         mMyFragmentAdapter=new MyFragmentAdapter(getSupportFragmentManager());
-//        mMyFragmentAdapter.addFragment(new ImageFragment(),"福利");//
+        mMyFragmentAdapter.addFragment(new DailyFragment(),"Daily");//
         addFragments();
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
