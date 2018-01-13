@@ -32,10 +32,7 @@ public class ImageFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void setUrls(List<String> urls) {
-        this.mUrls = urls;
-    }
+
     public static ImageFragment newInstance(String param1, String param2) {
         ImageFragment fragment = new ImageFragment();
         Bundle args = new Bundle();
@@ -57,8 +54,7 @@ public class ImageFragment extends BaseFragment {
         mDataPresenter.setBaseFragment(this);
         countOfRequestInfo=10;
         timesOfRequestInfo=1;
-        mUrls=new ArrayList<>();
-        mDataPresenter.getGImageUrls(mUrls,countOfRequestInfo,timesOfRequestInfo);
+        mDataPresenter.getGImageUrls(mResultBeans,countOfRequestInfo,timesOfRequestInfo);
         mRecyclerView=(RecyclerView)view.findViewById(R.id.image_recyclerview);
         mSwipeRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.layout_swipe_refresh);
         mStaggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
@@ -68,14 +64,14 @@ public class ImageFragment extends BaseFragment {
 
     @Override
     public void initCallback(){
-        gImagesAdapter=new GImagesAdapter(mUrls);
+        gImagesAdapter=new GImagesAdapter(mResultBeans);
         mRecyclerView.setAdapter(gImagesAdapter);
         initListeners();
     }
 
     @Override
     public void loadMoreCallback(){
-        gImagesAdapter.setUrls(mUrls);
+        gImagesAdapter.setResultBeans(mResultBeans);
         gImagesAdapter.insertItems(timesOfRequestInfo,countOfRequestInfo);
     }
 
@@ -95,7 +91,7 @@ public class ImageFragment extends BaseFragment {
             public void onLoadMore(int currentPage) {
 //                gImagesAdapter.length+=1;
                 timesOfRequestInfo++;
-                mDataPresenter.getGImageUrls(mUrls,countOfRequestInfo,timesOfRequestInfo);
+                mDataPresenter.getGImageUrls(mResultBeans,countOfRequestInfo,timesOfRequestInfo);
 
             }
         });

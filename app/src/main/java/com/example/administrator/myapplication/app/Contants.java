@@ -8,5 +8,6 @@ import android.util.DisplayMetrics;
 
 public class Contants {
     public static final String BASE_URL="http://gank.io/";
+    public static final int PER_REQUEST_COUNT=10;
 
 }

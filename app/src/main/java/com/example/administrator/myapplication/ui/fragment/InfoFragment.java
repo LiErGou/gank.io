@@ -50,16 +50,11 @@ public class InfoFragment extends BaseFragment {
         }
         mDataPresenter=new DataPresenter(getContext());
         mDataPresenter.setBaseFragment(this);
-        mUrls=new ArrayList<>();
-        mTitles=new ArrayList<>();
-        mWhos=new ArrayList<>();
-        mTimes =new ArrayList<>();
-        mResultTypes=new ArrayList<>();
-        mImageUrls=new ArrayList<>();
+
         countOfRequestInfo =10;
         timesOfRequestInfo =1;
 
-        mDataPresenter.getDataUrls(mType, mUrls, mTitles,mWhos,mTimes,countOfRequestInfo, timesOfRequestInfo,mResultTypes,mImageUrls);
+        mDataPresenter.getDataUrls(mType,mResultBeans,countOfRequestInfo, timesOfRequestInfo);
 
     }
 
@@ -92,35 +87,6 @@ public class InfoFragment extends BaseFragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    @Override
-    public void setUrls(List<String> urls) {
-        this.mUrls = urls;
-    }
-
-    @Override
-    public void setTitles(List<String> titles) {
-        mTitles=titles;
-    }
-
-    @Override
-    public void setWhos(List<String> whos) {
-        mWhos=whos;
-    }
-
-    @Override
-    public void setTimes(List<String> times) {
-        mTimes = times;
-    }
-
-    @Override
-    public void setResultTypes(List<String> resultTypes) {
-        mResultTypes=resultTypes;
-    }
-
-    @Override
-    public void setImageUrls(List<String> imageUrls) {
-        mImageUrls=imageUrls;
-    }
 
     @Override
     void initListeners() {
@@ -137,8 +103,7 @@ public class InfoFragment extends BaseFragment {
             public void onLoadMore(int currentPage) {
 //                gImagesAdapter.length+=1;
                 timesOfRequestInfo++;
-                mDataPresenter.getDataUrls(mType,mUrls,mTitles,mWhos,mTimes,
-                        countOfRequestInfo,timesOfRequestInfo,mResultTypes,mImageUrls);
+                mDataPresenter.getDataUrls(mType,mResultBeans, countOfRequestInfo,timesOfRequestInfo);
 
             }
         });
@@ -146,7 +111,7 @@ public class InfoFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent=new Intent(getContext(), WebActivity.class);
-                intent.putExtra("url",mUrls.get(position));
+                intent.putExtra("url",mResultBeans.get(position).getResults().get(0).getUrl());
                 startActivity(intent);
                 Toast.makeText(getContext(),"click"+position,Toast.LENGTH_SHORT).show();
             }
@@ -160,24 +125,14 @@ public class InfoFragment extends BaseFragment {
 
     @Override
     public void initCallback() {
-        mInfoAdapter=new InfoAdapter(mUrls);
-        mInfoAdapter.setTime(mTimes);
-        mInfoAdapter.setTitles(mTitles);
-        mInfoAdapter.setWhos(mWhos);
-        mInfoAdapter.setImageUrls(mImageUrls);
-        mInfoAdapter.setResultTypes(mResultTypes);
+        mInfoAdapter=new InfoAdapter(mResultBeans);
         mRecyclerView.setAdapter(mInfoAdapter);
         initListeners();
     }
 
     @Override
     public void loadMoreCallback() {
-        mInfoAdapter.setUrls(mUrls);
-        mInfoAdapter.setTime(mTimes);
-        mInfoAdapter.setTitles(mTitles);
-        mInfoAdapter.setWhos(mWhos);
-        mInfoAdapter.setImageUrls(mImageUrls);
-        mInfoAdapter.setResultTypes(mResultTypes);
+        mInfoAdapter.setResultBeans(mResultBeans);
         mInfoAdapter.insertItems(timesOfRequestInfo,countOfRequestInfo);
     }
 

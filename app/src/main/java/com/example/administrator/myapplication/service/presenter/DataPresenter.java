@@ -1,6 +1,8 @@
 package com.example.administrator.myapplication.service.presenter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -11,7 +13,10 @@ import com.example.administrator.myapplication.service.utils.ImageUtils;
 import com.example.administrator.myapplication.ui.fragment.BaseFragment;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -25,23 +30,24 @@ import rx.subscriptions.CompositeSubscription;
 public class DataPresenter implements Presenter {
 
 
-
-
+    static final String[] types = {"Android", "iOS", "休息视频", "拓展资源", "前端", "瞎推荐", "App", "福利"};
     private BaseFragment mBaseFragment;
     private Context mContext;
     private ImageView mImageView;
     private DataManager mDataManager;
     private CompositeSubscription mCompositeSubscription;
     private ResultBean mResultBean;
-
+    private int curRandomNum;
     public DataPresenter(Context context) {
         mContext = context;
-        mDataManager=new DataManager(context);
-        mCompositeSubscription=new CompositeSubscription();
+        mDataManager = new DataManager(context);
+        mCompositeSubscription = new CompositeSubscription();
     }
+
     public void setBaseFragment(BaseFragment GImagesAdapter) {
         mBaseFragment = GImagesAdapter;
     }
+
     @Override
     public void onCreate() {
 
@@ -59,47 +65,30 @@ public class DataPresenter implements Presenter {
 
     @Override
     public void onStop() {
-        if(mCompositeSubscription.hasSubscriptions()){
+        if (mCompositeSubscription.hasSubscriptions()) {
             mCompositeSubscription.unsubscribe();
         }
     }
 
     @Override
     public void attachMyView(View view) {
-        mImageView=(ImageView) view;
+        mImageView = (ImageView) view;
     }
 
-    public void getDataUrls(String type, final List<String> urls, final List<String> titles,
-                            final List<String> whos, final List<String> times, final int count, final int page, final List<String> resultTypes, final List<String> imageUrls){
+    public void getDataUrls(String type, final List<ResultBean> resultBeans, final int count, final int page) {
 
-        mCompositeSubscription.add(mDataManager.getData(type,count,page)
+        mCompositeSubscription.add(mDataManager.getData(type, count, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResultBean>() {
                                @Override
                                public void onCompleted() {
-                                   if(mResultBean !=null){
-                                       for(int i=0;i<count;i++){
-                                           urls.add(mResultBean.getResults().get(i).getUrl());
-                                           titles.add(mResultBean.getResults().get(i).getDesc());
-                                           whos.add(mResultBean.getResults().get(i).getWho());
-                                           times.add(mResultBean.getResults().get(i).getPublishedAt());
-                                           resultTypes.add(mResultBean.getResults().get(i).getType());
-                                           if(mResultBean.getResults().get(i).getImages()!=null){
-                                               imageUrls.add(mResultBean.getResults().get(i).getImages().get(0));
-                                           }else{
-                                               imageUrls.add(null);
-                                           }
-                                       }
-                                       mBaseFragment.setUrls(urls);
-                                       mBaseFragment.setTitles(titles);
-                                       mBaseFragment .setWhos(whos);
-                                       mBaseFragment.setTimes(times);
-                                       mBaseFragment.setResultTypes(resultTypes);
-                                       mBaseFragment.setImageUrls(imageUrls);
-                                       if(page==1){
+                                   if (mResultBean != null) {
+                                       resultBeans.add(mResultBean);
+                                       mBaseFragment.setResultBeans(resultBeans);
+                                       if (page == 1) {
                                            mBaseFragment.initCallback();
-                                       }else {
+                                       } else {
                                            mBaseFragment.loadMoreCallback();
                                        }
                                    }
@@ -107,7 +96,7 @@ public class DataPresenter implements Presenter {
 
                                @Override
                                public void onError(Throwable e) {
-                                   Toast.makeText(mContext,"Download Failed",Toast.LENGTH_LONG);
+                                   Toast.makeText(mContext, "Download Failed", Toast.LENGTH_LONG);
                                }
 
                                @Override
@@ -117,41 +106,78 @@ public class DataPresenter implements Presenter {
                            }
                 )
         );
-
     }
 
-    public void getGImageUrls(final List<String> urls, final int count, final int page){
-        List<String> titles=new ArrayList<>();
-        List<String> whos=new ArrayList<>();
-        List<String> times=new ArrayList<>();
-        List<String> resultTypes=new ArrayList<>();
-        List<String> imageUrls=new ArrayList<>();
-        getDataUrls("福利",urls,titles,whos,times,count,page,resultTypes,imageUrls);
+    private int getRandomNum(){
+        int tmp=(int) (Math.random() * 10);
+        if(tmp!=curRandomNum){
+            curRandomNum=tmp;
+            return tmp;
+        }else return tmp+1;
     }
 
-
-    public void getGImage(int count,int page){
-        mCompositeSubscription.add(mDataManager.getGImage(count,page)
+    public void getChangeDailyData(String type, final int position) {
+        mCompositeSubscription.add(mDataManager.getData(type, 1,getRandomNum() )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResultBean>() {
-                    @Override
-                    public void onCompleted() {
-                        if(mResultBean !=null){
-                            ImageUtils.loadPic(mContext, mResultBean,mImageView);
-                        }
-                    }
+                               @Override
+                               public void onCompleted() {
+                                   if (mResultBean != null) {
+                                       mBaseFragment.setCurrentResultBeans(mResultBean);
+                                       mBaseFragment.changeCallback(position);
+                                   }
+                               }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(mContext,"Download Failed",Toast.LENGTH_LONG);
-                    }
+                               @Override
+                               public void onError(Throwable e) {
+                                   Toast.makeText(mContext, "Download Failed", Toast.LENGTH_LONG);
+                               }
 
-                    @Override
-                    public void onNext(ResultBean resultBean) {
-                        mResultBean = resultBean;
-                    }
-                }
+                               @Override
+                               public void onNext(ResultBean resultBean) {
+                                   mResultBean = resultBean;
+                               }
+                           }
+                )
+        );
+    }
+
+    public void getInitDailyUrls(List<ResultBean> resultBeans) {
+        for (int i = 0; i < types.length; i++) {
+            getDataUrls(types[i], resultBeans, 1, 1);
+        }
+
+    }
+
+    public void getGImageUrls(List<ResultBean> resultBeans, final int count, final int page) {
+
+        getDataUrls("福利", resultBeans, count, page);
+    }
+
+
+    public void getGImage(int count, int page) {
+        mCompositeSubscription.add(mDataManager.getGImage(count, page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResultBean>() {
+                               @Override
+                               public void onCompleted() {
+                                   if (mResultBean != null) {
+                                       ImageUtils.loadPic(mContext, mResultBean, mImageView);
+                                   }
+                               }
+
+                               @Override
+                               public void onError(Throwable e) {
+                                   Toast.makeText(mContext, "Download Failed", Toast.LENGTH_LONG);
+                               }
+
+                               @Override
+                               public void onNext(ResultBean resultBean) {
+                                   mResultBean = resultBean;
+                               }
+                           }
                 )
         );
     }

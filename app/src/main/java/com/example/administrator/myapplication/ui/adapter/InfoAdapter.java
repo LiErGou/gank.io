@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.app.Contants;
+import com.example.administrator.myapplication.service.entity.ResultBean;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,16 +33,11 @@ public class InfoAdapter extends RecyclerView.Adapter {
 
 
     private OnItemClickLitener mOnItemClickLitener;
-    private List<String> mUrls;
     private Context mContext;
-    private List<String> mWhos;
-    private List<String> mTime;
-    private List<String> mTitles;
-    private List<String> mResultTypes;
-    private List<String> mImageUrls;
+    private List<ResultBean> mResultBeans;
 
-    public InfoAdapter(List<String> urls) {
-        mUrls = urls;
+    public InfoAdapter(List<ResultBean> resultBeans) {
+        mResultBeans = resultBeans;
     }
 
     @Override
@@ -63,11 +60,11 @@ public class InfoAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof InfoViewHolder){
             final InfoViewHolder infoViewHolder=(InfoViewHolder)holder;
-            infoViewHolder.mItemTitle.setText(mTitles.get(position));
+            infoViewHolder.mItemTitle.setText(mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getDesc());
             infoViewHolder.mWhoType.setText(getWhoAndType(position));
-            infoViewHolder.mTime.setText(mTime.get(position).substring(0,10));
-            String url = mImageUrls.get(position);
-            infoViewHolder.mTitleImage.setImageResource(getImageTitle(mResultTypes.get(position)));
+            infoViewHolder.mTime.setText(mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getPublishedAt().substring(0,10));
+            String url = mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position%Contants.PER_REQUEST_COUNT).getUrl();
+            infoViewHolder.mTitleImage.setImageResource(getImageTitle(mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getType()));
             if(url!=null){
                 Glide.with(mContext)
                         .asBitmap()
@@ -101,7 +98,7 @@ public class InfoAdapter extends RecyclerView.Adapter {
         if(holder instanceof ImageViewHolder) {
             final ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
 
-            String url = mUrls.get(position);
+            String url = mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getUrl();
             Glide.with(mContext)
                     .asBitmap()
                     .load(url)
@@ -154,14 +151,20 @@ public class InfoAdapter extends RecyclerView.Adapter {
         }
         return typeImageMap.get(resultType);
     }
+
+    public void setResultBeans(List<ResultBean> resultBeans) {
+        mResultBeans = resultBeans;
+    }
+
     private String getWhoAndType(int position){
         StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder.append(mWhos.get(position)).append("·").append(mResultTypes.get(position));
+        stringBuilder.append(mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getWho())
+                .append("·").append(mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getType());
         return stringBuilder.toString();
     }
     @Override
     public int getItemViewType(int position) {
-        if(!mResultTypes.get(position).equals("福利")){
+        if(!mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getType().equals("福利")){
             return INFO_TYPE;
         }else{
             return IMAGE_TYPE;
@@ -169,33 +172,11 @@ public class InfoAdapter extends RecyclerView.Adapter {
     }
 
 
-    public void setUrls(List<String> urls) {
-        mUrls = urls;
-    }
 
-    public void setWhos(List<String> whos) {
-        mWhos = whos;
-    }
-
-    public void setTime(List<String> time) {
-        mTime = time;
-    }
-
-    public void setTitles(List<String> titles) {
-        mTitles = titles;
-    }
-
-    public void setResultTypes(List<String> resultTypes) {
-        mResultTypes = resultTypes;
-    }
-
-    public void setImageUrls(List<String> imageUrls) {
-        mImageUrls = imageUrls;
-    }
 
     @Override
     public int getItemCount() {
-        return mUrls.size();
+        return mResultBeans.size()*Contants.PER_REQUEST_COUNT;
     }
 
     class InfoViewHolder extends RecyclerView.ViewHolder{

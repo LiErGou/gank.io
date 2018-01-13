@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.app.Contants;
+import com.example.administrator.myapplication.service.entity.ResultBean;
 
 import java.util.List;
 
@@ -26,16 +28,17 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
 
     private OnItemClickLitener mOnItemClickLitener;
     private Context mContext;
-    private List<String> urls;
 
-    public GImagesAdapter(List<String> urls) {
-        this.urls = urls;
+    private List<ResultBean> mResultBeans;
+
+
+    public void setContext(Context context) {
+        mContext = context;
     }
-    public void setUrls(List<String> urls) {
-        this.urls = urls;
+
+    public GImagesAdapter(List<ResultBean> resultBeans) {
+        mResultBeans = resultBeans;
     }
-
-
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -59,7 +62,8 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
-        String url = urls.get(position);
+        String url = mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults()
+                .get(position%Contants.PER_REQUEST_COUNT).getUrl();
         Glide.with(mContext)
                 .asBitmap()
                 .load(url)
@@ -109,7 +113,11 @@ public class GImagesAdapter extends RecyclerView.Adapter<GImagesAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return urls.size();
+        return mResultBeans.size()*Contants.PER_REQUEST_COUNT;
+    }
+
+    public void setResultBeans(List<ResultBean> resultBeans) {
+        mResultBeans = resultBeans;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
