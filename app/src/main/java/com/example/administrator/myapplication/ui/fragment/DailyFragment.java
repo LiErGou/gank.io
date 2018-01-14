@@ -57,11 +57,9 @@ public class DailyFragment extends BaseFragment {
 
     @Override
     public void changeCallback(int position) {
-        Log.d("licl","changeCallback"+position);
         mResultBeans.set(position,currentResultBean);
         mDailyAdapter.setResultBeans(mResultBeans);
         mDailyAdapter.notifyItemChanged(position);
-        Log.d("licl","currentResultBean"+currentResultBean.getResults().get(0).getDesc());
     }
 
     @Override
@@ -82,9 +80,7 @@ public class DailyFragment extends BaseFragment {
         mDailyAdapter.setOnItemChangeClickListener(new DailyAdapter.OnItemChangeClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
                 mDataPresenter.getChangeDailyData(mResultBeans.get(position).getResults().get(0).getType(),position);
-                Log.d("licl","OnItemChangeClickListener"+position);
             }
         });
     }

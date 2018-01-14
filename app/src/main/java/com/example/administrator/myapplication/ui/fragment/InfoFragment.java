@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +21,14 @@ import com.example.administrator.myapplication.ui.adapter.InfoAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InfoFragment extends BaseFragment {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
+public class InfoFragment extends BaseFragment {
+    @BindView(R.id.info_recycleview)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.info_swiperefreshlayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private static final String TYPE = "type";
     private String mType;
     private OnFragmentInteractionListener mListener;
@@ -50,7 +57,6 @@ public class InfoFragment extends BaseFragment {
         }
         mDataPresenter=new DataPresenter(getContext());
         mDataPresenter.setBaseFragment(this);
-
         countOfRequestInfo =10;
         timesOfRequestInfo =1;
 
@@ -62,8 +68,8 @@ public class InfoFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_info, container, false);
-        mRecyclerView=view.findViewById(R.id.info_recycleview);
-        mSwipeRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.info_swiperefreshlayout);
+        ButterKnife.bind(this,view);
+        Log.d("licl","InfoFragment onCreateView "+mType);
         mLinearLayoutManager=new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
@@ -80,9 +86,21 @@ public class InfoFragment extends BaseFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.d("licl","InfoFragment onDetach "+mType);
         mListener = null;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("licl","InfoFragment onResume "+mType);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("licl","InfoFragment onStop "+mType);
+    }
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
@@ -113,7 +131,6 @@ public class InfoFragment extends BaseFragment {
                 Intent intent=new Intent(getContext(), WebActivity.class);
                 intent.putExtra("url",mResultBeans.get(position).getResults().get(0).getUrl());
                 startActivity(intent);
-                Toast.makeText(getContext(),"click"+position,Toast.LENGTH_SHORT).show();
             }
 
             @Override
