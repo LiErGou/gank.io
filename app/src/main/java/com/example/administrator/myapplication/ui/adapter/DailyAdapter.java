@@ -79,7 +79,10 @@ public class DailyAdapter extends RecyclerView.Adapter {
         }
 
         if(imageurl!=null){
-
+            Glide.with(mContext)
+                    .asBitmap()
+                    .load(imageurl)
+                    .into(dailyViewHolder.contentImageView);
         }else {
             if(type.equals("福利")){
                 Glide.with(mContext)

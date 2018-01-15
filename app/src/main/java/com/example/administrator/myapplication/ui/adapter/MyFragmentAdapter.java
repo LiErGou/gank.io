@@ -40,21 +40,6 @@ public class MyFragmentAdapter extends FragmentStatePagerAdapter {
         return mFragments.size();
     }
 
-//    @Override
-//    public Fragment instantiateItem(ViewGroup container, int position) {
-//        Log.d("licl","instantiateItem "+position);
-//        Fragment fragment = (Fragment) super.instantiateItem(container,
-//                position);
-//        mFragmentManager.beginTransaction().show(fragment).commit();
-//        return fragment;
-//    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        Log.d("licl","destroyItem "+position);
-//        Fragment fragment = mFragments.get(position);
-//        mFragmentManager.beginTransaction().hide(fragment).commit();
-    }
 
     @Override
     public CharSequence getPageTitle(int position) {

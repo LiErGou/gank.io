@@ -70,7 +70,6 @@ public class InfoFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_info, container, false);
         ButterKnife.bind(this,view);
-        Log.d("licl","InfoFragment onCreateView "+mType);
         mLinearLayoutManager=new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
@@ -87,27 +86,8 @@ public class InfoFragment extends BaseFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d("licl","InfoFragment onDetach "+mType);
         mListener = null;
     }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        Log.d("licl","InfoFragment onResume "+mType);
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        Log.d("licl","InfoFragment onStop "+mType);
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        Log.d("licl","InfoFragment onPause "+mType);
-//    }
 
 
     public interface OnFragmentInteractionListener {
