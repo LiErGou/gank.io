@@ -25,12 +25,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="7dp"
                 android:layout_weight="1"
                 android:gravity="left"
                 android:maxLines="2"
                 android:textColor="@android:color/black"
-                android:textSize="18sp"/>
+                android:textSize="16sp"/>
             <ImageView
                 android:layout_gravity="center_horizontal"
                 android:layout_width="@dimen/recyclerview_item_size"
@@ -68,7 +68,8 @@
                 android:layout_gravity="right"
                 android:gravity="right"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:layout_marginRight="3dp"/>
         </LinearLayout>
 
     </LinearLayout>

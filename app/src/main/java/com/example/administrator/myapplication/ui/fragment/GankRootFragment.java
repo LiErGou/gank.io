@@ -45,8 +45,10 @@ public class GankRootFragment extends Fragment {
         initView();
         return view;
     }
+
     private void initView(){
-        mMyFragmentAdapter = new MyFragmentAdapter(getActivity().getSupportFragmentManager());
+
+        mMyFragmentAdapter = new MyFragmentAdapter(getChildFragmentManager());
         addFragments();
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -60,13 +62,5 @@ public class GankRootFragment extends Fragment {
             mMyFragmentAdapter.addFragment(mInfoFragments[i], types.get(i));
         }
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-
-
 
 }

@@ -1,9 +1,15 @@
 package com.example.administrator.myapplication.ui.adapter;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 import android.view.ViewGroup;
+
+import com.example.administrator.myapplication.ui.fragment.InfoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +18,7 @@ import java.util.List;
  * Created by Administrator on 2017/11/6.
  */
 
-public class MyFragmentAdapter extends FragmentPagerAdapter {
+public class MyFragmentAdapter extends FragmentStatePagerAdapter {
     private List<Fragment> mFragments;
     private FragmentManager mFragmentManager;
     private ArrayList<String> mTitles;
@@ -34,18 +40,20 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
         return mFragments.size();
     }
 
-    @Override
-    public Fragment instantiateItem(ViewGroup container, int position) {
-        Fragment fragment = (Fragment) super.instantiateItem(container,
-                position);
-        mFragmentManager.beginTransaction().show(fragment).commit();
-        return fragment;
-    }
+//    @Override
+//    public Fragment instantiateItem(ViewGroup container, int position) {
+//        Log.d("licl","instantiateItem "+position);
+//        Fragment fragment = (Fragment) super.instantiateItem(container,
+//                position);
+//        mFragmentManager.beginTransaction().show(fragment).commit();
+//        return fragment;
+//    }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        Fragment fragment = mFragments.get(position);
-        mFragmentManager.beginTransaction().hide(fragment).commit();
+        Log.d("licl","destroyItem "+position);
+//        Fragment fragment = mFragments.get(position);
+//        mFragmentManager.beginTransaction().hide(fragment).commit();
     }
 
     @Override
@@ -53,8 +61,11 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
         return mTitles.get(position);
     }
 
+
+
     public void addFragment(Fragment fragment, String title){
         mFragments.add(fragment);
         mTitles.add(title);
     }
+
 }

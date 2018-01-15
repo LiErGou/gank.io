@@ -32,6 +32,7 @@
                 android:src="@drawable/ic_vector_title_refesh"
                 android:layout_width="@dimen/title_item_image_size"
                 android:layout_height="@dimen/title_item_image_size"
+                android:layout_marginRight="2dp"
                 android:scaleType="centerCrop"/>
             <TextView
                 android:id="@+id/change_textview"
@@ -39,7 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
-                android:text="换一换"/>
+                android:text="换一换"
+                android:layout_marginRight="2dp"/>
         </LinearLayout>
 
     </LinearLayout>

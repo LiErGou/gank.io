@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.app.Contants;
 import com.example.administrator.myapplication.service.presenter.DataPresenter;
 import com.example.administrator.myapplication.ui.EndlessOnScrollListener;
 import com.example.administrator.myapplication.ui.activity.WebActivity;
@@ -89,18 +90,26 @@ public class InfoFragment extends BaseFragment {
         Log.d("licl","InfoFragment onDetach "+mType);
         mListener = null;
     }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        Log.d("licl","InfoFragment onResume "+mType);
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        Log.d("licl","InfoFragment onStop "+mType);
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        Log.d("licl","InfoFragment onPause "+mType);
+//    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("licl","InfoFragment onResume "+mType);
-    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d("licl","InfoFragment onStop "+mType);
-    }
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
@@ -129,7 +138,7 @@ public class InfoFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent=new Intent(getContext(), WebActivity.class);
-                intent.putExtra("url",mResultBeans.get(position).getResults().get(0).getUrl());
+                intent.putExtra("url",mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getUrl());
                 startActivity(intent);
             }
 

@@ -64,11 +64,16 @@ public class InfoAdapter extends RecyclerView.Adapter {
             infoViewHolder.mWhoType.setText(getWhoAndType(position));
             infoViewHolder.mTime.setText(mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getPublishedAt().substring(0,10));
             String url = mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position%Contants.PER_REQUEST_COUNT).getUrl();
+            String image=null;
+            if(mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position%Contants.PER_REQUEST_COUNT).getImages()!=null){
+                image=mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position%Contants.PER_REQUEST_COUNT).getImages().get(0);
+            }
+
             infoViewHolder.mTitleImage.setImageResource(getImageTitle(mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getType()));
-            if(url!=null){
+            if(image!=null){
                 Glide.with(mContext)
                         .asBitmap()
-                        .load(url)
+                        .load(image)
                         .into(infoViewHolder.mInfoImage);
             }
             if (mOnItemClickLitener != null)
