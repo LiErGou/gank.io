@@ -16,10 +16,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:layout_width="@dimen/recyclerview_item_size"
+                android:layout_height="@dimen/recyclerview_item_size"
+                android:scaleType="centerCrop"
+                android:id="@+id/info_image" />
             <TextView
                 android:id="@+id/item_titile"
                 android:layout_width="0dp"
@@ -31,46 +37,30 @@
                 android:maxLines="2"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"/>
-            <ImageView
-                android:layout_gravity="center_horizontal"
-                android:layout_width="@dimen/recyclerview_item_size"
-                android:layout_height="@dimen/recyclerview_item_size"
-                android:scaleType="centerCrop"
-                android:id="@+id/info_image" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/iv_type_item_title"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:padding="1dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/ic_vector_title_android"/>
-            <TextView
-                android:id="@+id/item_who_type"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:gravity="left"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/item_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="right"
-                android:gravity="right"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="12sp"
-                android:layout_marginRight="3dp"/>
+                android:layout_height="match_parent"
+                >
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/star"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/star"
+                    android:layout_centerHorizontal="true"
+                    />
+                <TextView
+                    android:layout_below="@id/star"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/star_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="0"
+                    android:textColor="@color/lightgray"/>
+            </RelativeLayout>
         </LinearLayout>
+
 
     </LinearLayout>
 

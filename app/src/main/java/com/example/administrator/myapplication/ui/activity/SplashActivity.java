@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class SplashActivity extends AppCompatActivity {
 
+
     private DataPresenter mDataPresenter;
     private ImageView mImageView;
     private ScaleAnimation scaleAnimation;
@@ -28,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         mDataPresenter.onCreate();
         mDataPresenter.attachMyView(mImageView);
         int picNum = new Random().nextInt(6) + 1;
-        mDataPresenter.getGImage(1,picNum);
+//        mDataPresenter.getGImage(1,picNum);
         initAnimation();
     }
 

@@ -10,10 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.app.Contants;
+import com.example.administrator.myapplication.service.entity.UserBean;
 import com.example.administrator.myapplication.service.presenter.DataPresenter;
 import com.example.administrator.myapplication.ui.EndlessOnScrollListener;
 import com.example.administrator.myapplication.ui.activity.WebActivity;
@@ -24,12 +28,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class InfoFragment extends BaseFragment {
     @BindView(R.id.info_recycleview)
     RecyclerView mRecyclerView;
     @BindView(R.id.info_swiperefreshlayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
     private static final String TYPE = "type";
     private String mType;
     private OnFragmentInteractionListener mListener;
@@ -50,18 +56,28 @@ public class InfoFragment extends BaseFragment {
         return fragment;
     }
 
+    public void getFirstRepos(String user){
+        mResultBeans.clear();
+        countOfRequestInfo =10;
+        timesOfRequestInfo =1;
+        mType=user;
+        mDataPresenter.getDataUrls(mType,mResultBeans,countOfRequestInfo, timesOfRequestInfo);
+
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mType = getArguments().getString(TYPE);
-        }
+//        if (getArguments() != null) {
+//            mType = getArguments().getString(TYPE);
+//        }
+//        mType="airbnb";
         mDataPresenter=new DataPresenter(getContext());
         mDataPresenter.setBaseFragment(this);
-        countOfRequestInfo =10;
-        timesOfRequestInfo =1;
-
-        mDataPresenter.getDataUrls(mType,mResultBeans,countOfRequestInfo, timesOfRequestInfo);
+//        if()
+        String user=this.getArguments().getString("user");
+        getFirstRepos(user);
 
     }
 
@@ -70,6 +86,7 @@ public class InfoFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_info, container, false);
         ButterKnife.bind(this,view);
+
         mLinearLayoutManager=new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
@@ -117,9 +134,9 @@ public class InfoFragment extends BaseFragment {
         mInfoAdapter.setOnItemClickLitener(new InfoAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent=new Intent(getContext(), WebActivity.class);
-                intent.putExtra("url",mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getUrl());
-                startActivity(intent);
+//                Intent intent=new Intent(getContext(), WebActivity.class);
+//                intent.putExtra("url",mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getUrl());
+//                startActivity(intent);
             }
 
             @Override

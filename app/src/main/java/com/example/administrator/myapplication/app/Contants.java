@@ -7,7 +7,7 @@ import android.util.DisplayMetrics;
  */
 
 public class Contants {
-    public static final String BASE_URL="http://gank.io/";
-    public static final int PER_REQUEST_COUNT=10;
+    public static final String BASE_URL="https://api.github.com/";
+    public static final int PER_REQUEST_COUNT=1;
 
 }

@@ -58,7 +58,7 @@ public class RetrofitHelper {
         return mRetrofit;
     }
 
-    public ImageService getGImageServer(){
-        return mRetrofit.create(ImageService.class);
+    public UserService getGImageServer(){
+        return mRetrofit.create(UserService.class);
     }
 }
