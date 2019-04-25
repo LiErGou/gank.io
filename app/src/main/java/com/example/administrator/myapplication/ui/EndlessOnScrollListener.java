@@ -5,9 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 
-/**
- * Created by Administrator on 2017/11/2.
- */
+
 
 public abstract class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
     private int currentPage = 0;

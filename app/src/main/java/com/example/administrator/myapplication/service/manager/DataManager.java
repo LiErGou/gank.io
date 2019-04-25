@@ -11,9 +11,7 @@ import java.util.List;
 import rx.Observable;
 
 
-/**
- * Created by Administrator on 2017/10/31.
- */
+
 
 public class DataManager {
     private UserService mRetrofitService;
@@ -23,7 +21,4 @@ public class DataManager {
     public Observable<List<UserBean>> getUsers(String name, int count, int page){
         return mRetrofitService.getUsers(name,page,count);
     }
-//    public Observable<UserBean> getData(String type,int count, int page){
-//        return mRetrofitService.getDatas(type,count,page);
-//    }
 }

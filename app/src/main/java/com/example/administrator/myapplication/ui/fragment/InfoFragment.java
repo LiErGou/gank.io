@@ -1,36 +1,23 @@
 package com.example.administrator.myapplication.ui.fragment;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.app.Contants;
-import com.example.administrator.myapplication.service.entity.UserBean;
 import com.example.administrator.myapplication.service.presenter.DataPresenter;
 import com.example.administrator.myapplication.ui.EndlessOnScrollListener;
 import com.example.administrator.myapplication.ui.activity.HomeActivity;
-import com.example.administrator.myapplication.ui.activity.WebActivity;
 import com.example.administrator.myapplication.ui.adapter.InfoAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class InfoFragment extends BaseFragment {
     @BindView(R.id.info_recycleview)
@@ -138,9 +125,7 @@ public class InfoFragment extends BaseFragment {
         mInfoAdapter.setOnItemClickLitener(new InfoAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Intent intent=new Intent(getContext(), WebActivity.class);
-//                intent.putExtra("url",mResultBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position% Contants.PER_REQUEST_COUNT).getUrl());
-//                startActivity(intent);
+
             }
 
             @Override

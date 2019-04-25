@@ -21,11 +21,4 @@ public interface UserService {
 
     );
 
-//    @GET("api/data/{type}/{count}/{page}")
-//    Observable<ResultBean> getDatas(
-//            @Path("type") String type,
-//            @Path("count") int count,
-//            @Path("page") int page
-//    );
-
 }

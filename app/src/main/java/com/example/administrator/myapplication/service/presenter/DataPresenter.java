@@ -18,9 +18,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-/**
- * Created by Administrator on 2017/11/1.
- */
+
 
 public class DataPresenter implements Presenter {
 
@@ -110,71 +108,5 @@ public class DataPresenter implements Presenter {
             return tmp;
         }else return tmp+1;
     }
-
-//    public void getChangeDailyData(String type, final int position) {
-//        mCompositeSubscription.add(mDataManager.getData(type, 1,getRandomNum() )
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<UserBean>() {
-//                               @Override
-//                               public void onCompleted() {
-//                                   if (mResultBean != null) {
-//                                       mBaseFragment.setCurrentResultBeans(mResultBean);
-//                                       mBaseFragment.changeCallback(position);
-//                                   }
-//                               }
-//
-//                               @Override
-//                               public void onError(Throwable e) {
-//                                   Toast.makeText(mContext, "Download Failed", Toast.LENGTH_LONG);
-//                               }
-//
-//                               @Override
-//                               public void onNext(UserBean resultBean) {
-//                                   mResultBean = resultBean;
-//                               }
-//                           }
-//                )
-//        );
-//    }
-//
-//    public void getInitDailyUrls(List<UserBean> resultBeans) {
-//        for (int i = 0; i < types.length; i++) {
-//            getDataUrls(types[i], resultBeans, 1, 1);
-//        }
-//
-//    }
-//
-//    public void getGImageUrls(List<UserBean> resultBeans, final int count, final int page) {
-//
-//        getDataUrls("福利", resultBeans, count, page);
-//    }
-//
-//
-//    public void getGImage(int count, int page) {
-//        mCompositeSubscription.add(mDataManager.getUsers(count, page)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<ResultBean>() {
-//                               @Override
-//                               public void onCompleted() {
-//                                   if (mResultBean != null) {
-//                                       ImageUtils.loadPic(mContext, mResultBean, mImageView);
-//                                   }
-//                               }
-//
-//                               @Override
-//                               public void onError(Throwable e) {
-//                                   Toast.makeText(mContext, "Download Failed", Toast.LENGTH_LONG);
-//                               }
-//
-//                               @Override
-//                               public void onNext(ResultBean resultBean) {
-//                                   mResultBean = resultBean;
-//                               }
-//                           }
-//                )
-//        );
-//    }
 
 }
