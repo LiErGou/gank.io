@@ -11,10 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.service.cache.ACache;
+import com.example.administrator.myapplication.service.entity.UserBean;
 import com.example.administrator.myapplication.service.presenter.DataPresenter;
+import com.example.administrator.myapplication.service.utils.CacheHelper;
 import com.example.administrator.myapplication.ui.EndlessOnScrollListener;
 import com.example.administrator.myapplication.ui.activity.HomeActivity;
 import com.example.administrator.myapplication.ui.adapter.InfoAdapter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +36,7 @@ public class InfoFragment extends BaseFragment {
     private OnFragmentInteractionListener mListener;
     private InfoAdapter mInfoAdapter;
     private LinearLayoutManager mLinearLayoutManager;
-
+//    private CacheHelper<List<UserBean>> mListCacheHelper;
 
     public InfoFragment() {
 

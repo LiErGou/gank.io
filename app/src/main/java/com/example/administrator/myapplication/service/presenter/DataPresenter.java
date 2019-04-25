@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.example.administrator.myapplication.service.entity.UserBean;
 import com.example.administrator.myapplication.service.manager.DataManager;
-import com.example.administrator.myapplication.service.utils.ImageUtils;
 import com.example.administrator.myapplication.ui.fragment.BaseFragment;
 import com.example.administrator.myapplication.ui.fragment.InfoFragment;
 
