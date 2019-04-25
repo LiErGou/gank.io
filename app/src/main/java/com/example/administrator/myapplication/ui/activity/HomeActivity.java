@@ -51,10 +51,18 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    public void switchToNoResult(String msg){
+        Bundle bundle=new Bundle();
+        bundle.putString("msg",msg);
+        mStatusFragment.setArguments(bundle);
+        changeFragment(mStatusFragment);
+    }
+
     private void changeFragment(Fragment fragment){
         mFragmentManager.beginTransaction()
                 .replace(R.id.framelayout, fragment)
                 .commit();
+
     }
 
     private Fragment getFragment(){

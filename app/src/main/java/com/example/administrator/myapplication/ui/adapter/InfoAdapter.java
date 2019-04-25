@@ -62,6 +62,7 @@ public class InfoAdapter extends RecyclerView.Adapter {
             UserBean curUserBean=mUserBeans.get(position/ Contants.PER_REQUEST_COUNT);
             final InfoViewHolder infoViewHolder=(InfoViewHolder)holder;
             infoViewHolder.mItemTitle.setText(curUserBean.getName());
+            infoViewHolder.mStarCount.setText(curUserBean.getStargazers_count()+"");
 //            infoViewHolder.mWhoType.setText(getWhoAndType(position));
 //            infoViewHolder.mTime.setText(curUserBean.getStargazers_count());
 //            String url = mUserBeans.get(position/ Contants.PER_REQUEST_COUNT).getResults().get(position%Contants.PER_REQUEST_COUNT).getUrl();
@@ -188,7 +189,7 @@ public class InfoAdapter extends RecyclerView.Adapter {
     class InfoViewHolder extends RecyclerView.ViewHolder{
         TextView mItemTitle;
 //        TextView mWhoType;
-        TextView mTime;
+        TextView mStarCount;
         ImageView mInfoImage;
 //        ImageView mTitleImage;
         public InfoViewHolder(View itemView) {
@@ -196,6 +197,7 @@ public class InfoAdapter extends RecyclerView.Adapter {
             mItemTitle=(TextView)itemView.findViewById(R.id.item_titile);
 //            mWhoType =(TextView)itemView.findViewById(R.id.item_who_type);
 //            mTime=(TextView)itemView.findViewById(R.id.item_time);
+            mStarCount=(TextView)itemView.findViewById(R.id.star_count);
             mInfoImage=(ImageView)itemView.findViewById(R.id.info_image);
 //            mTitleImage=(ImageView)itemView.findViewById(R.id.iv_type_item_title);
         }

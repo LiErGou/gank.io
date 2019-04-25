@@ -2,5 +2,5 @@
     <string name="app_name">AirbnbTask</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Please input user name to get Repositories</string>
+    <string name="hello_blank_fragment">Please input user name to get repositories</string>
 </resources>

@@ -9,6 +9,7 @@ import com.example.administrator.myapplication.service.entity.UserBean;
 import com.example.administrator.myapplication.service.manager.DataManager;
 import com.example.administrator.myapplication.service.utils.ImageUtils;
 import com.example.administrator.myapplication.ui.fragment.BaseFragment;
+import com.example.administrator.myapplication.ui.fragment.InfoFragment;
 
 import java.util.List;
 
@@ -23,8 +24,6 @@ import rx.subscriptions.CompositeSubscription;
 
 public class DataPresenter implements Presenter {
 
-
-    static final String[] types = {"Android", "iOS", "休息视频", "拓展资源", "前端", "瞎推荐", "App", "福利"};
     private BaseFragment mBaseFragment;
     private Context mContext;
     private ImageView mImageView;
@@ -91,6 +90,7 @@ public class DataPresenter implements Presenter {
                                @Override
                                public void onError(Throwable e) {
                                    e.printStackTrace();
+                                   ((InfoFragment)mBaseFragment).swichToNoResult("net work error,Please check network.");
                                    Toast.makeText(mContext, "Download Failed" +e.getMessage(), Toast.LENGTH_LONG).show();
                                }
 

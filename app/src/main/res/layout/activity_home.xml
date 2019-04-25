@@ -14,6 +14,7 @@
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:background="@drawable/edit_text_bg"
+
         android:orientation="horizontal"
         tools:layout_editor_absoluteX="10dp">
 
@@ -23,7 +24,10 @@
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/search" />
+            android:src="@drawable/search"
+            android:scaleType="centerCrop"
+            android:background="@drawable/search_btn"
+             />
 
         <EditText
             android:id="@+id/username_et"

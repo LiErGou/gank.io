@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.example.administrator.myapplication.app.Contants;
 import com.example.administrator.myapplication.service.entity.UserBean;
 import com.example.administrator.myapplication.service.presenter.DataPresenter;
 import com.example.administrator.myapplication.ui.EndlessOnScrollListener;
+import com.example.administrator.myapplication.ui.activity.HomeActivity;
 import com.example.administrator.myapplication.ui.activity.WebActivity;
 import com.example.administrator.myapplication.ui.adapter.InfoAdapter;
 
@@ -35,7 +37,8 @@ public class InfoFragment extends BaseFragment {
     RecyclerView mRecyclerView;
     @BindView(R.id.info_swiperefreshlayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-
+    @BindView(R.id.progress_bar)
+    ProgressBar mProgressBar;
     private static final String TYPE = "type";
     private String mType;
     private OnFragmentInteractionListener mListener;
@@ -126,6 +129,7 @@ public class InfoFragment extends BaseFragment {
             @Override
             public void onLoadMore(int currentPage) {
 //                gImagesAdapter.length+=1;
+                showProgress();
                 timesOfRequestInfo++;
                 mDataPresenter.getDataUrls(mType,mResultBeans, countOfRequestInfo,timesOfRequestInfo);
 
@@ -148,15 +152,36 @@ public class InfoFragment extends BaseFragment {
 
     @Override
     public void initCallback() {
-        mInfoAdapter=new InfoAdapter(mResultBeans);
-        mRecyclerView.setAdapter(mInfoAdapter);
-        initListeners();
+        if(mResultBeans.size()!=0){
+            mProgressBar.setVisibility(View.GONE);
+            mInfoAdapter=new InfoAdapter(mResultBeans);
+            mRecyclerView.setAdapter(mInfoAdapter);
+            initListeners();
+        }else{
+            swichToNoResult("No user or no repository.");
+        }
+
+    }
+
+    public void swichToNoResult(String msg){
+        ((HomeActivity)getActivity()).switchToNoResult(msg);
     }
 
     @Override
     public void loadMoreCallback() {
+        hideProgress();
+        mProgressBar.setVisibility(View.GONE);
         mInfoAdapter.setResultBeans(mResultBeans);
         mInfoAdapter.insertItems(timesOfRequestInfo,countOfRequestInfo);
     }
+
+    private void showProgress(){
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress(){
+        mProgressBar.setVisibility(View.GONE);
+    }
+
 
 }
